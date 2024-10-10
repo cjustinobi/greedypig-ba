@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: #fefefe;
+  /* background-color: #05051F; */
+  /* background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb)); */
+}
+
+@font-face {
+  font-family: 'Coiny-Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./assets/fonts/Coiny-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Inter_18pt-SemiBold';
+  font-style: normal;
+  font-size: 600;
+  src: url(./assets/fonts/Inter_18pt-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'Inter_18pt-Medium';
+  font-style: normal;
+  font-size: 500;
+  src: url(./assets/fonts/Inter_18pt-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'WorkSans-ExtraBold';
+  font-style: normal;
+  font-size: 800;
+  src: url(./assets/fonts/WorkSans-ExtraBold.ttf);
+}
+
+@font-face {
+  font-family: 'WorkSans-Regular';
+  font-style: normal;
+  font-size: 400;
+  src: url(./assets/fonts/WorkSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'WorkSans-Medium';
+  font-style: normal;
+  font-size: 500;
+  src: url(./assets/fonts/WorkSans-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'WorkSans-SemiBold';
+  font-style: normal;
+  font-size: 600;
+  src: url(./assets/fonts/WorkSans-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'WorkSans-Bold';
+  font-style: normal;
+  font-size: 700;
+  src: url(./assets/fonts/WorkSans-Bold.ttf);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

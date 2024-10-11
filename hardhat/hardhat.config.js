@@ -4,6 +4,7 @@ const PRIVATE_KEY = vars.get("PRIVATE_KEY");
 const ALCHEMY_SEPOLIA_URL = vars.get("ALCHEMY_SEPOLIA_URL")
 const POLYGON_AMOY_ALCHEMY_URL = vars.get("POLYGON_AMOY_ALCHEMY_URL")
 // const AVALANCHE_TESTNET_ALCHEMY_URL = vars.get("AVALANCHE_TESTNET_ALCHEMY_URL")
+const BASE_ALCHEMY_URL = vars.get("BASE_ALCHEMY_URL")
 const ETHERSCAN_API_KEY = vars.get("ETHERSCAN_API_KEY")
 const avalanche_fuji_testnet_wss_url= "wss://avalanche-fuji-c-chain-rpc.publicnode.com"
 
@@ -20,11 +21,11 @@ module.exports = {
       chainId: 11155111,
       accounts: [`0x${PRIVATE_KEY}`]
     },
-    // polygonAmoy: {
-    //   url: `${POLYGON_AMOY_ALCHEMY_URL}`,
-    //   chainId: 80002,
-    //   accounts: [`0x${PRIVATE_KEY}`]
-    // },
+    base_sepolia: {
+      url: `${BASE_ALCHEMY_URL}`,
+      chainId: 84532,
+      accounts: [`0x${PRIVATE_KEY}`]
+    },
     avalanche_fuji_testnet: {
     url: `https://avalanche-fuji-c-chain-rpc.publicnode.com`,
     chainId: 43113,

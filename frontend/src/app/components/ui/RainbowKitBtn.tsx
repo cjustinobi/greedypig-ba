@@ -31,7 +31,7 @@ const RainbowKitBtn: FC = () => {
                     <button
                       onClick={openConnectModal}                  
                       type="button"
-                      className="bg-gradient-custom text-white py-2 px-4 rounded-full"
+                      className="bg-gradient-custom text-white py-2 px-4"
                     >
                       Connect Wallet
                     </button>
@@ -43,7 +43,7 @@ const RainbowKitBtn: FC = () => {
                     <button
                       onClick={openChainModal}
                       type="button"
-                      className="bg-gradient-custom text-white font-bold py-2 px-4 rounded-full"
+                      className="bg-gradient-custom text-white font-bold py-2 px-4"
                     >
                       Wrong network
                     </button>
@@ -56,7 +56,7 @@ const RainbowKitBtn: FC = () => {
                       onClick={openChainModal}
                       style={{ display: 'flex', alignItems: 'center' }}
                       type="button"
-                      className="bg-gradient-custom text-white font-bold py-2 px-4 rounded-full"
+                      className="bg-gradient-custom text-white font-bold py-2 px-4"
                     >
                       {chain.hasIcon && (
                         <div

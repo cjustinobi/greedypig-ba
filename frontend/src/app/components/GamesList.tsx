@@ -4,7 +4,7 @@ import useGames from '@/hooks/useGames'
 const GamesList = () => {
 
 const { games, isPending, error } = useGames()
-console.log('rrr ', games)
+
 
   if (isPending) return <div>Loading...</div>;
 

@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-// import { VRFConsumerBaseV2Plus } from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
-// import { VRFV2PlusClient } from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
-
 contract GreedyPig {
-// contract GreedyPig is VRFConsumerBaseV2Plus {
 
     uint public gameId;
 
@@ -77,17 +73,6 @@ contract GreedyPig {
 
     // retrieve 1 random values in one request.
     uint32 public numWords = 1;
-
-    
-    // constructor(
-    //     bytes32 _keyhash, 
-    //     uint256 subscriptionId, 
-    //     address _VRFConsumerBaseV2Plus) 
-    //     VRFConsumerBaseV2Plus(_VRFConsumerBaseV2Plus) {  
-
-    //     keyHash =  _keyhash;
-    //      s_subscriptionId = subscriptionId;
-    // }
 
     modifier noReentrant() {
         require(!locked, "No re-entrancy");
@@ -275,61 +260,5 @@ contract GreedyPig {
     }
 
     receive() external payable {}
-
-    // chainlink VRF implementation
-    //  function requestRandomWords(
-    //     bool enableNativePayment
-    // ) public returns (uint256 requestId) {
-    //     // Will revert if subscription is not set and funded.
-    //     requestId = s_vrfCoordinator.requestRandomWords(
-    //         VRFV2PlusClient.RandomWordsRequest({
-    //             keyHash: keyHash,
-    //             subId: s_subscriptionId,
-    //             requestConfirmations: requestConfirmations,
-    //             callbackGasLimit: callbackGasLimit,
-    //             numWords: numWords,
-    //             extraArgs: VRFV2PlusClient._argsToBytes(
-    //                 VRFV2PlusClient.ExtraArgsV1({
-    //                     nativePayment: enableNativePayment
-    //                 })
-    //             )
-    //         })
-    //     );
-    //     s_requests[requestId] = RequestStatus({
-    //         exists: true,
-    //         fulfilled: false,
-    //         randomWord: 0      
-    //     });
-        
-    //     requestIds.push(requestId);
-    //     lastRequestId = requestId;
-    //     emit RequestSent(requestId, numWords);
-    //     return requestId;
-    // }
-
-    // function fulfillRandomWords(
-    //     uint256 _requestId,
-    //     uint256[] calldata _randomWords
-    // ) internal override {
-    //     require(s_requests[_requestId].exists, "request not found");
-    //     s_requests[_requestId].fulfilled = true;
-    //     uint256 randomNumber = _randomWords[0] % 6 + 1; // Generate number between 1 and 6
-    //     s_requests[_requestId].randomWord = randomNumber;
-    //     emit RequestFulfilled(_requestId, randomNumber);
-    // }
-
-    // function getRequestStatus(
-    //     uint256 _requestId
-    // ) public view returns (bool fulfilled, uint256 randomWord) {
-    //     require(s_requests[_requestId].exists, "request not found");
-    //     RequestStatus memory request = s_requests[_requestId];
-    //     return (request.fulfilled, request.randomWord);
-    // }
-
-    // function getRandomNumber() private returns (uint256 randomNumber) {
-    //    uint256 requestId =  requestRandomWords(false);
-    //    (bool fulfilled, uint256 randomWord) = getRequestStatus(requestId);
-    //    if(fulfilled) return randomWord;
-    // }
 
 }

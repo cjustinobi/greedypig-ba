@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <div className="h-20 bg-custom-gray pl-2 pr-3 py-2 flex items-center justify-between">
+    <div className="h-20 bg-custom-gray  py-2 flex items-center justify-between">
       <div className="w-16 h-16 rounded-lg bg-gradient-custom">
         <Link href={'/'}>
           <Image
@@ -50,20 +50,22 @@ const Header: React.FC = () => {
         </Link> */}
       </div>
 
-      <button
+      {/* <button
         className="hidden w-[169px] h-10 my-auto gap-4 md:flex"
         onClick={() => setIsOpen(true)}
-      >
-        <Image src={ProfilePic} width={40} height={40} alt="profilepic" />
-        <div className="w-[113px] h-[38px]">
+      > */}
+        {/* <Image src={ProfilePic} width={40} height={40} alt="profilepic" /> */}
+        {/* <RainbowKitBtn /> */}
+        <ConnectButton />
+        {/* <div className="w-[113px] h-[38px]">
           <p className="w-[113px] h-5 font-WorkSans-SemiBold text-sm font-semibold">
             Divine Samuel
           </p>
           <p className="w-[95px] h-4 text-custom-gray5 font-WorkSans-Regular text-xs font-normal">
             OxO5e9...dO62
           </p>
-        </div>
-      </button>
+        </div> */}
+      {/* </button> */}
 
       {/* Profile Modal */}
       <ProfileModal isOpen={isOpen} onClose={() => setIsOpen(false)}>

@@ -1,11 +1,11 @@
 import { FC, ReactNode } from 'react';
 
 interface FormBtnProps {
-    label: string;               
-    onClick: () => void;
-    type: 'button'; 
-    children: string;
-    className: string;           
+  label: string
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  type: 'button' | 'submit'
+  children: string
+  className: string
 }
 
 const FormBtn: FC<FormBtnProps> = ({ label, onClick, type = 'button', className = '', children}) => {

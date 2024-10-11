@@ -1,3 +1,5 @@
+'use client'
+
 import Hero from '@/components/ui/Hero'
 import TopScorer from '@/components/ui/TopScorer'
 import LatestGames from '@/components/shared/LatestGames'

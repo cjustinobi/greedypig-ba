@@ -1,57 +1,41 @@
+'use client'
+
 import React from 'react'
 import GameArena from '@/components/shared/GameArena'
 import Leaderboard from '@/components/shared/Leaderboard'
+import { useReadContract } from 'wagmi'
+import { wagmiContractConfig } from '@/lib/wagmi'
 
-const GameArenaLeaderboard = () => {
+const Games = ({ params }: { params: { id: number } }) => {
+  const id = params.id
+
+  const { data: game, isPending, isLoading, error } = useReadContract({
+    ...wagmiContractConfig,
+    functionName: 'getGame',
+    args: [id]
+  })
+
+  console.log('from game ID ', game)
+
+  if (isLoading) return (<div>Loading</div>)
+  if (error) return <div>Error occurred</div>
+
   return (
-    <div className="grid grid-cos-1 lg:grid-cols-12 p-6 lg:p-8 gap-8">
-      <div className="col-span-full lg:col-span-8">
-        <GameArena />
-      </div>
-
-      <div className="col-span-full lg:col-span-4">
-        <Leaderboard />
-      </div>
+    <div>
+      {game ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 p-6 lg:p-8 gap-8">
+          <div className="col-span-full lg:col-span-8">
+            <GameArena game={game} />
+          </div>
+          <div className="col-span-full lg:col-span-4">
+            <Leaderboard game={game} />
+          </div>
+        </div>
+      ) : (
+        <div>Game not available</div>
+      )}
     </div>
   )
 }
 
-export default GameArenaLeaderboard
-
-// "use client";
-
-// import { wagmiContractConfig } from '@/lib/wagmi'
-// import { useReadContract } from "wagmi"
-// import GameSettings from "@/components/GameSettings";
-// import GameArena from "@/components/GameArena";
-// import GameHeader from "@/components/layout/GameHeader";
-
-// const GamePage = ({ params }: { params: { id: number } }) => {
-
-//   const id = params.id;
-
-//   const {
-//     data: game,
-//     isPending,
-//     error
-//   } = useReadContract({
-//     ...wagmiContractConfig,
-//     functionName: 'viewRngForNonce',
-//     args: ['1472']
-//   })
-
-//   if (isPending) return <div>Loading...</div>;
-
-//   if (error) return <div>Error: {error.shortMessage || error.message}</div>;
-
-//   console.log("result ", game);
-//   return (
-//     <div>
-//       <GameHeader />
-//       <GameSettings />
-//       <GameArena />
-//     </div>
-//   );
-// };
-
-// export default GamePage;
+export default Games

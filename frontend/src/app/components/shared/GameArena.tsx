@@ -1,12 +1,43 @@
 'use client'
 
-import React from 'react'
+import { FC } from 'react'
 import Image from 'next/image'
 import QuestionIcon from '../../assets/img/questionIcon.png'
 import SettingsIcon from '../../assets/img/settingsIcon.png'
 import ArenaDice from '../../assets/img/twodices.png'
+import { useAccount, useWriteContract } from 'wagmi'
+import { formatNumber } from '@/lib/utils'
+import { wagmiContractConfig } from '@/lib/wagmi'
+import { toBigInt } from 'ethers'
 
-const GameArena: React.FC = () => {
+interface GameArenaProps {
+  game: any;
+}
+
+const GameArena: FC<GameArenaProps> = ({ game }) => {
+
+  const { address } = useAccount()
+
+  const joinGame = async () => {
+debugger
+    const gameId = formatNumber(game[0]);
+
+    writeContract({
+      ...wagmiContractConfig,
+      functionName: "joinGame",
+      args: [gameId],
+      value: 2,
+      // value: toBigInt(game[4]),
+    });
+  };
+
+  const {
+    data: joinHash,
+    error: joinError,
+    isPending: joinPending,
+    writeContract,
+  } = useWriteContract();
+
   return (
     <section className="relative h-[736px] bg-gradient-radial2 border-4 border-[#2F0C59] rounded-3xl p-8">
       <div className="absolute left-6 top-6 w-[72px] flex items-center justify-center h-12 bg-[#E87937] rounded-3xl px-3 py-6 gap-2.5">
@@ -24,7 +55,7 @@ const GameArena: React.FC = () => {
           Winning score
         </p>
         <p className="w-[93px] h-[35px] font-Coiny-Regular font-normal text-[32px] leading-[35.2px]">
-          5000
+          {game[3].toString()}
         </p>
       </div>
       <div className="absolute top-6 right-6 w-[72px] flex items-center justify-center h-12 bg-[#E87937] rounded-3xl px-3 py-6 gap-2.5">
@@ -47,8 +78,14 @@ const GameArena: React.FC = () => {
       </div>
       <div>
       <button className="w-[181px] h-[47px] bg-gradient-custom border-2 rounded-full flex justify-center items-center gap-2.5">
-        <p className="w-[84px] h-[23px] font-Coiny-Regular font-normal text-[18px] leading-[22.5px]">
-          Spin dice
+        <p onClick={joinGame} className="h-[23px] font-Coiny-Regular font-normal text-[18px] leading-[22.5px]">
+        {joinPending
+                ? "Joining ..."
+                : game[8].some(
+                    (participant: any) => participant.player === address
+                  )
+                ? "Joined"
+                : "Join Game"}
         </p>
       </button>
       </div>

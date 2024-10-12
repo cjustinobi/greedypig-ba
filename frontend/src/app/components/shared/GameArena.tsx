@@ -26,8 +26,8 @@ debugger
       ...wagmiContractConfig,
       functionName: "joinGame",
       args: [gameId],
-      value: 2,
-      // value: toBigInt(game[4]),
+      // value: 2,
+      value: toBigInt(game[4]),
     });
   };
 

@@ -108,9 +108,9 @@ contract GreedyPig {
     function joinGame(uint _gameId) public payable validGameId(_gameId) {
 
         Game storage game = games[_gameId];
-        require(!isParticipant(_gameId, msg.sender), "You have already joined this game");
-        require(game.status == GameStatus.New, "Can't join at the moment");
-        require(msg.value == game.stakemount, "Incorrect stake amount");
+        // require(!isParticipant(_gameId, msg.sender), "You have already joined this game");
+        // require(game.status == GameStatus.New, "Can't join at the moment");
+        // require(msg.value == game.stakemount, "Incorrect stake amount");
 
         game.participants[msg.sender] = PlayerInfo({
             player: msg.sender,

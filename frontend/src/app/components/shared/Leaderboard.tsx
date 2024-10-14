@@ -17,9 +17,10 @@ const Leaderboard: FC<LeaderBoardProps> = ({ game }) => {
       </div>
       <div>
         <p className="w-[147px] lg:w-[333px] h-[19px] font-WorkSans-SemiBold font-semibold text-[16px] leading-[18.77px]">
-          GDG Devfest
+          {game[1]}
         </p>
       </div>
+      {game && game[8].length ? (
       <div className="h-[384px] flex flex-col rounded-lg border-t border-t-custom-gray6">
         {game[8].length &&
           game[8].map((player: any, i: number) => (
@@ -49,6 +50,7 @@ const Leaderboard: FC<LeaderBoardProps> = ({ game }) => {
             </div>
           ))}
       </div>
+      ) : <div> No game found</div> }
     </section>
   )
 }

@@ -63,7 +63,14 @@ const CreateGameForm: FC = () => {
     });
   };
 
-  const createGame = async (e: FormEvent) => {
+  const {
+    data,
+    error: createGameError,
+    isPending,
+    writeContract: creatGameContract
+  } = useWriteContract()
+
+  const createGamexx = async (e: FormEvent) => {
     if (contract) {
       try {
          e.preventDefault()
@@ -77,21 +84,25 @@ const CreateGameForm: FC = () => {
     }
   }
 
-  const createGames = async (e: FormEvent) => {
+  const createGames = async () => {
     try{
-      console.log(e)
+      console.log('create game ')
       // if(!gameName) return toast.error("Game name required")
         // if(!winningScore && winningScore < 6 ) return toast.error("Winning score required and should be greater than 6")
         // if(!selectedValue) return toast.error("Stake options required!")
         // if(selectedValue === "yes" && !bettingAmount) return toast.error("Field required!")
-        e.preventDefault()
+        // e.preventDefault()
   
-        writeContract({
-        ...wagmiContractConfig,
-        functionName: "createGame",
-        args: [],
-        // args: [formData.title, formData.score, formData.stake, parseEther(formData.stake)],
-      });
+        creatGameContract({
+          ...wagmiContractConfig,
+          functionName: 'createGame',
+          args: [
+            formData.title,
+            formData.score,
+            formData.stake,
+            parseEther(formData.stake)
+          ]
+        })
 
     }catch(error){
       console.log(error)

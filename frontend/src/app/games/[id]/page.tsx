@@ -1,23 +1,53 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import GameArena from '@/components/shared/GameArena'
 import Leaderboard from '@/components/shared/Leaderboard'
 import { useReadContract } from 'wagmi'
 import { wagmiContractConfig } from '@/lib/wagmi'
 
 const Games = ({ params }: { params: { id: number } }) => {
-  const id = params.id
 
-  const { data: game, isPending, isLoading, error } = useReadContract({
+  const gameId = params.id
+
+  const [shouldFetchGame, setShouldFetchGame] = useState(false)
+
+
+  const {
+    data: game,
+    isPending,
+    error,
+    refetch: refetchGameData,
+    isSuccess: isGameDataFetchSuccess
+  } = useReadContract({
     ...wagmiContractConfig,
     functionName: 'getGame',
-    args: [id]
+    args: [gameId],
+    query: {
+      enabled: shouldFetchGame && gameId > 0
+    }
   })
+
+  useEffect(() => {
+    if (shouldFetchGame && gameId > 0) {
+      refetchGameData()
+    }
+  }, [shouldFetchGame, gameId, refetchGameData])
+
+  useEffect(() => {
+    if (isGameDataFetchSuccess) {
+      setShouldFetchGame(false)
+    }
+  }, [isGameDataFetchSuccess])
+
+
+  useEffect(() => {
+    setShouldFetchGame(true)
+  }, [])
 
   console.log('from game ID ', game)
 
-  if (isLoading) return (<div>Loading</div>)
+  if (isPending) return (<div>Loading</div>)
   if (error) return <div>Error occurred</div>
 
   return (
@@ -25,7 +55,10 @@ const Games = ({ params }: { params: { id: number } }) => {
       {game ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 p-6 lg:p-8 gap-8">
           <div className="col-span-full lg:col-span-8">
-            <GameArena game={game} />
+            <GameArena
+              game={game}
+              setShouldFetchGame={() => setShouldFetchGame(true)}
+            />
           </div>
           <div className="col-span-full lg:col-span-4">
             <Leaderboard game={game} />

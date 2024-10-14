@@ -1,11 +1,11 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import Image from 'next/image'
 import QuestionIcon from '../../assets/img/questionIcon.png'
 import SettingsIcon from '../../assets/img/settingsIcon.png'
 import ArenaDice from '../../assets/img/twodices.png'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi'
 import { formatNumber, MAP_GAME_STATUS } from '@/lib/utils'
 import { wagmiContractConfig } from '@/lib/wagmi'
 import { toBigInt } from 'ethers'
@@ -13,45 +13,74 @@ import toast from 'react-hot-toast'
 import Button from '../ui/Button'
 
 interface GameArenaProps {
-  game: any;
+  game: any
+  setShouldFetchGame: any
 }
 
-const GameArena: FC<GameArenaProps> = ({ game }) => {
-
+const GameArena: FC<GameArenaProps> = ({ game, setShouldFetchGame }) => {
   const { address } = useAccount()
 
+  useWatchContractEvent({
+    ...wagmiContractConfig,
+    eventName: 'PlayerJoined',
+    onLogs(logs) {
+      setShouldFetchGame(true)
+    }
+  })
+
   const joinGame = async () => {
+  
+    const gameId = formatNumber(game[0])
 
-    const gameId = formatNumber(game[0]);
-
-    writeContract({
+    joinContract({
       ...wagmiContractConfig,
-      functionName: "joinGame",
+      functionName: 'joinGame',
       args: [gameId],
-      value: toBigInt(game[4]),
-    });
-  };
+      // value: toBigInt(game[4]),
+    })
+  }
 
   const pass = async () => {
     const gameId = formatNumber(game[0])
 
-    writeContract({
+    passTurnContract({
       ...wagmiContractConfig,
       functionName: 'passTurn',
       args: [gameId]
     })
+
+    // writeContract({
+    //   ...wagmiContractConfig,
+    //   functionName: 'passTurn',
+    //   args: [gameId]
+    // })
   }
 
   const {
-    data: joinHash,
+    data: joinGameHash,
     error: joinError,
     isPending: joinPending,
-    writeContract,
-  } = useWriteContract();
+    writeContract: joinContract
+  } = useWriteContract()
+
+  const { isLoading: isJoiningGame, isSuccess: hasJoinedGame } =
+    useWaitForTransactionReceipt({
+      hash: joinGameHash
+    })
+
+  const {
+    data: passTurnHash,
+    error: passTurnError,
+    isPending: passTurnPending,
+    writeContract: passTurnContract
+  } = useWriteContract()
+
+  console.log('passTurnHash ', passTurnHash)
 
   const {
     data: playHash,
     error: playError,
+    isPending: playPending,
     writeContract: playContract
   } = useWriteContract()
 
@@ -66,6 +95,12 @@ const GameArena: FC<GameArenaProps> = ({ game }) => {
       args: [game[0]]
     })
   }
+
+  useEffect(() => {
+    if (hasJoinedGame) {
+      setShouldFetchGame(true)
+    }
+  }, [hasJoinedGame])
 
   return (
     <section className="relative h-[736px] bg-gradient-radial2 border-4 border-[#2F0C59] rounded-3xl p-8">
@@ -112,12 +147,12 @@ const GameArena: FC<GameArenaProps> = ({ game }) => {
             ) && (
               <div className="flex justify-center">
                 <Button
-                  label="Pass"
+                  label={passTurnPending ? 'Passing...' : 'Pass'}
                   className="mt-6"
                   onClick={pass}
                 />
                 <Button
-                  label="Play Game"
+                  label={playPending ? 'Playing...' : 'Play Game'}
                   className="mt-6"
                   onClick={playGame}
                 />
@@ -128,22 +163,21 @@ const GameArena: FC<GameArenaProps> = ({ game }) => {
             game[7] === 0 &&
             // Check if the number of participants is less than 2 and connected wallet is not the creator
             (game[8].length < 2 && game[2] !== address ? (
-              <button className="w-[181px] h-[47px] bg-gradient-custom border-2 rounded-full flex justify-center items-center gap-2.5">
-                <p
-                  onClick={joinGame}
-                  className="h-[23px] font-Coiny-Regular font-normal text-[18px] leading-[22.5px]"
-                >
-                  {joinPending
+              <Button
+                label={
+                  joinPending
                     ? 'Joining ...'
                     : game[8].some(
                         (participant: any) => participant.player === address
                       )
                     ? 'Joined'
-                    : 'Join Game'}
-                </p>
-              </button>
+                    : 'Join Game'
+                }
+                onClick={joinGame}
+                className="w-[181px] h-[47px] flex justify-center items-center gap-2.5"
+              />
             ) : (
-              // Show "Pass" and "Play Game" if participants >= 2 and connected wallet is the creator
+           
               game[2] === address && (
                 <div className="flex justify-center">
                   <Button label="Pass" className="mt-6" onClick={pass} />

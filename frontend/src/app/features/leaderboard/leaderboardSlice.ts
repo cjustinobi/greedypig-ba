@@ -8,7 +8,7 @@ interface PlayerInfo {
 
 export interface Participant {
   address: string
-  playerInfo: PlayerInfo
+  player: PlayerInfo
 }
 
 interface State {

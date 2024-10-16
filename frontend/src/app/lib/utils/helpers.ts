@@ -13,6 +13,13 @@ export const formatNumber = (value: number) => {
   return formatUnits(parseUnits(value.toString(), 0), 0)
 }
 
+export const loadDiceImages = () => {
+  const diceImages = []
+  for (let i = 1; i <= 6; i++) {
+    diceImages.push(require(`@/assets/img/dice_${i}.png`))
+  }
+  return diceImages
+}
 
 
 // export const hasDeposited = (bettingAmount: number, reports: any) => {

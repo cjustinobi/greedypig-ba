@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import ProfilePic from '../../assets/img/profilepic.png'
 import { shortenAddress } from '@/lib/utils';
+import { useAccount } from 'wagmi';
 
 interface LeaderBoardProps {
   game: any;
 }
 
 const Leaderboard: FC<LeaderBoardProps> = ({ game }) => {
+  const { address } = useAccount()
   return (
     <section className="h-[736px] flex flex-col bg-custom-gray rounded-2xl p-6 gap-6">
       <div>
@@ -24,7 +26,7 @@ const Leaderboard: FC<LeaderBoardProps> = ({ game }) => {
       <div className="h-[384px] flex flex-col rounded-lg border-t border-t-custom-gray6">
         {game[8].length &&
           game[8].map((player: any, i: number) => (
-            <div className="h-16 border-b flex flex-row items-center justify-between border-b-custom-gray6 py-4">
+            <div className={`${game[9] === player.player ? 'bg-gray-500 ' : ''} h-16 border-b flex flex-row items-center justify-between border-b-custom-gray6 py-4`}>
               <div className="w-[115px] lg:w-[215px] flex items-center gap-2.5">
                 <Image
                   src={ProfilePic}
